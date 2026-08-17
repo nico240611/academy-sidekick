@@ -25,14 +25,14 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   useEffect(() => {
-    window.location.replace("/classroom/");
+    window.location.replace("/classroom/index.html");
   }, []);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <p className="text-sm text-muted-foreground">
         Abriendo English Classroom…{" "}
-        <a className="underline" href="/classroom/">
+        <a className="underline" href="/classroom/index.html">
           Entrar
         </a>
       </p>
