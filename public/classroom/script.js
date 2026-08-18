@@ -560,13 +560,12 @@
     download(new Blob(["\ufeff" + html], { type: "application/vnd.ms-excel" }), "Notas_English_Classroom_2026-2.xls");
   }
 
-  function exportPdf() {
-    if (currentView !== "notas") { render("notas"); }
-    Object.keys(openUnits).length; // no-op
-    UNITS.forEach(function (u) { openUnits[u.id] = true; });
-    render("notas");
-    setTimeout(function () { window.print(); }, 250);
-  }
+function exportPdf() {
+  if (currentView !== "notas") { render("notas"); }
+  UNITS.forEach(function (u) { openUnits[u.id] = true; });
+  render("notas");
+  setTimeout(function () { window.print(); }, 200);
+}
 
   function backupJson() {
     download(new Blob([JSON.stringify(state, null, 2)], { type: "application/json" }), "respaldo_english_classroom.json");
