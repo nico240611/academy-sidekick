@@ -690,8 +690,14 @@ function exportPdf() {
         save(); return render();
       }
       if (t.dataset.delAn) {
-        state.announcements = state.announcements.filter(function (a) { return a.id !== t.dataset.delAn; });
-        save(); return render();
+        var delId = t.dataset.delAn;
+        if (window.supabaseClient) {
+          window.supabaseClient.from("messages").delete().eq("id", delId).then(function (r) {
+            if (r.error) console.error(r.error);
+            else loadMessages();
+          });
+        }
+        return;
       }
       switch (t.id) {
         case "btnSaveAll": save(); alert("Cambios guardados correctamente."); return render();
@@ -719,8 +725,20 @@ function exportPdf() {
         case "btnAnnounce":
           var ti = $("#anTitle").value.trim(), bo = $("#anBody").value.trim();
           if (!ti || !bo) return alert("Escribe título y mensaje.");
-          state.announcements.push({ id: "an" + Date.now(), title: ti, body: bo, date: new Date().toISOString() });
-          save(); return render();
+          if (!window.supabaseClient) return alert("No hay conexión con el servidor.");
+          window.supabaseClient.from("messages").insert({
+            course_id: COURSE_ID,
+            local_id: currentUser.id,
+            name: currentUser.name,
+            role: currentUser.role,
+            type: "announcement",
+            title: ti,
+            body: bo
+          }).then(function (r) {
+            if (r.error) { console.error(r.error); alert("No se pudo publicar el aviso."); }
+            else loadMessages();
+          });
+          return;
       }
     });
 
