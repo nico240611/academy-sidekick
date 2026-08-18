@@ -8,6 +8,14 @@
   var STORE = "ec2026_state_v1";
   var SESSION = "ec2026_session_v1";
 
+  /* ---------------- SUPABASE / CLOUD ---------------- */
+  var COURSE_ID = "english-classroom-2026-2";
+  var SUPABASE_USERS = {
+    t1:    { email: "teacher@englishclassroom.local", password: "profe2026" },
+    andy:  { email: "andy@englishclassroom.local",   password: "andy2026" },
+    tommy: { email: "tommy@englishclassroom.local",  password: "tommy2026" }
+  };
+
   /* ---------------- DATOS BASE (Excel 2026-2) ---------------- */
   var UNITS = [
     { id: "u_inicio", name: "Inicio y Diagnóstico" },
