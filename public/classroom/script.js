@@ -279,7 +279,57 @@
       el.hidden = currentUser.role !== "teacher";
     });
     $("#sideMeet").href = state.config.meetLink;
+    subscribeMessages();
+    loadMessages();
     render("dashboard");
+  }
+
+  /* ---------------- CHAT / AVISOS EN TIEMPO REAL ---------------- */
+  var messageChannel = null;
+
+  function subscribeMessages() {
+    if (!window.supabaseClient || messageChannel) return;
+    messageChannel = window.supabaseClient
+      .channel("messages:" + COURSE_ID)
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "messages",
+        filter: "course_id=eq." + COURSE_ID
+      }, function () {
+        loadMessages();
+      })
+      .subscribe();
+  }
+
+  function unsubscribeMessages() {
+    if (!window.supabaseClient || !messageChannel) return;
+    window.supabaseClient.removeChannel(messageChannel);
+    messageChannel = null;
+  }
+
+  async function loadMessages() {
+    if (!window.supabaseClient) return;
+    var { data, error } = await window.supabaseClient
+      .from("messages")
+      .select("*")
+      .eq("course_id", COURSE_ID)
+      .order("created_at", { ascending: true });
+    if (error) { console.error(error); return; }
+    state.chat = [];
+    state.announcements = [];
+    (data || []).forEach(function (m) {
+      if (m.type === "chat") {
+        state.chat.push({ uid: m.local_id, name: m.name, text: m.body, ts: new Date(m.created_at).getTime() });
+      } else {
+        state.announcements.push({ id: m.id, title: m.title || "", body: m.body, date: m.created_at });
+      }
+    });
+    if (currentView === "avisos") {
+      $("#content").innerHTML = viewAvisos();
+      wire();
+      paintChat();
+    }
   }
 
   /* ---------------- VISTAS ---------------- */
