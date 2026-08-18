@@ -1,6 +1,7 @@
 /* =========================================================
    English Classroom · Plataforma Académica 2026-2
-   Sitio estático (sin backend). Persistencia en localStorage.
+   Notas y configuración en localStorage.
+   Chat y avisos sincronizados en tiempo real con Lovable Cloud.
    ========================================================= */
 (function () {
   "use strict";
