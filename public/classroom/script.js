@@ -123,9 +123,7 @@
       ],
       activities: activities,
       grades: { andy: {}, tommy: {} },
-      announcements: [
-        { id: "an1", title: "Bienvenidos al semestre 2026-2", body: "Revisa el cronograma y las fechas importantes. Las actividades se entregan por Google Classroom.", date: new Date().toISOString() }
-      ],
+      announcements: [],
       chat: []
     };
   }
