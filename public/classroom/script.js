@@ -227,6 +227,7 @@
     var payload = JSON.stringify({ id: user.id, ts: Date.now() });
     if (remember) localStorage.setItem(SESSION, payload);
     else sessionStorage.setItem(SESSION, payload);
+    authSupabase(user);
     showApp();
   }
 
@@ -238,11 +239,25 @@
       var u = state.users.filter(function (x) { return x.id === id; })[0];
       if (!u) return false;
       currentUser = u;
+      authSupabase(u);
       return true;
     } catch (e) { return false; }
   }
 
+  function authSupabase(user) {
+    var creds = SUPABASE_USERS[user.id];
+    if (!creds || !window.supabaseClient) return;
+    window.supabaseClient.auth.signInWithPassword({
+      email: creds.email,
+      password: creds.password
+    }).then(function (res) {
+      if (res.error) console.error("Supabase auth error:", res.error);
+    });
+  }
+
   function logout() {
+    if (window.supabaseClient) window.supabaseClient.auth.signOut();
+    unsubscribeMessages();
     localStorage.removeItem(SESSION);
     sessionStorage.removeItem(SESSION);
     currentUser = null;
