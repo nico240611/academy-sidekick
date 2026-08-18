@@ -1,12 +1,21 @@
 /* =========================================================
    English Classroom · Plataforma Académica 2026-2
-   Sitio estático (sin backend). Persistencia en localStorage.
+   Notas y configuración en localStorage.
+   Chat y avisos sincronizados en tiempo real con Lovable Cloud.
    ========================================================= */
 (function () {
   "use strict";
 
   var STORE = "ec2026_state_v1";
   var SESSION = "ec2026_session_v1";
+
+  /* ---------------- SUPABASE / CLOUD ---------------- */
+  var COURSE_ID = "english-classroom-2026-2";
+  var SUPABASE_USERS = {
+    t1:    { email: "teacher@englishclassroom.local", password: "profe2026" },
+    andy:  { email: "andy@englishclassroom.local",   password: "andy2026" },
+    tommy: { email: "tommy@englishclassroom.local",  password: "tommy2026" }
+  };
 
   /* ---------------- DATOS BASE (Excel 2026-2) ---------------- */
   var UNITS = [
@@ -115,9 +124,7 @@
       ],
       activities: activities,
       grades: { andy: {}, tommy: {} },
-      announcements: [
-        { id: "an1", title: "Bienvenidos al semestre 2026-2", body: "Revisa el cronograma y las fechas importantes. Las actividades se entregan por Google Classroom.", date: new Date().toISOString() }
-      ],
+      announcements: [],
       chat: []
     };
   }
@@ -134,12 +141,17 @@
       s.grades = s.grades || d.grades;
       s.grades.andy = s.grades.andy || {};
       s.grades.tommy = s.grades.tommy || {};
-      s.announcements = s.announcements || d.announcements;
-      s.chat = s.chat || [];
+      s.announcements = [];
+      s.chat = [];
       return s;
     } catch (e) { return defaultState(); }
   }
-  function save() { localStorage.setItem(STORE, JSON.stringify(state)); }
+  function save() {
+    var toStore = Object.assign({}, state);
+    toStore.announcements = [];
+    toStore.chat = [];
+    localStorage.setItem(STORE, JSON.stringify(toStore));
+  }
 
   /* ---------------- HELPERS ---------------- */
   function $(sel) { return document.querySelector(sel); }
@@ -216,6 +228,7 @@
     var payload = JSON.stringify({ id: user.id, ts: Date.now() });
     if (remember) localStorage.setItem(SESSION, payload);
     else sessionStorage.setItem(SESSION, payload);
+    authSupabase(user);
     showApp();
   }
 
@@ -227,11 +240,29 @@
       var u = state.users.filter(function (x) { return x.id === id; })[0];
       if (!u) return false;
       currentUser = u;
+      authSupabase(u);
       return true;
     } catch (e) { return false; }
   }
 
+  function authSupabase(user) {
+    var creds = SUPABASE_USERS[user.id];
+    if (!creds || !window.supabaseClient) return;
+    window.supabaseClient.auth.signInWithPassword({
+      email: creds.email,
+      password: creds.password
+    }).then(function (res) {
+      if (res.error) {
+        console.error("Supabase auth error:", res.error);
+      } else if (res.data && res.data.user) {
+        currentUser.supabaseUid = res.data.user.id;
+      }
+    });
+  }
+
   function logout() {
+    if (window.supabaseClient) window.supabaseClient.auth.signOut();
+    unsubscribeMessages();
     localStorage.removeItem(SESSION);
     sessionStorage.removeItem(SESSION);
     currentUser = null;
@@ -253,7 +284,57 @@
       el.hidden = currentUser.role !== "teacher";
     });
     $("#sideMeet").href = state.config.meetLink;
+    subscribeMessages();
+    loadMessages();
     render("dashboard");
+  }
+
+  /* ---------------- CHAT / AVISOS EN TIEMPO REAL ---------------- */
+  var messageChannel = null;
+
+  function subscribeMessages() {
+    if (!window.supabaseClient || messageChannel) return;
+    messageChannel = window.supabaseClient
+      .channel("messages:" + COURSE_ID)
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "messages",
+        filter: "course_id=eq." + COURSE_ID
+      }, function () {
+        loadMessages();
+      })
+      .subscribe();
+  }
+
+  function unsubscribeMessages() {
+    if (!window.supabaseClient || !messageChannel) return;
+    window.supabaseClient.removeChannel(messageChannel);
+    messageChannel = null;
+  }
+
+  async function loadMessages() {
+    if (!window.supabaseClient) return;
+    var { data, error } = await window.supabaseClient
+      .from("messages")
+      .select("*")
+      .eq("course_id", COURSE_ID)
+      .order("created_at", { ascending: true });
+    if (error) { console.error(error); return; }
+    state.chat = [];
+    state.announcements = [];
+    (data || []).forEach(function (m) {
+      if (m.type === "chat") {
+        state.chat.push({ uid: m.local_id, name: m.name, text: m.body, ts: new Date(m.created_at).getTime() });
+      } else {
+        state.announcements.push({ id: m.id, title: m.title || "", body: m.body, date: m.created_at });
+      }
+    });
+    if (currentView === "avisos") {
+      $("#content").innerHTML = viewAvisos();
+      wire();
+      paintChat();
+    }
   }
 
   /* ---------------- VISTAS ---------------- */
@@ -521,7 +602,7 @@
     h += '<h3 style="font-size:1rem;margin:22px 0 12px">Chat del curso</h3>' +
       '<div class="card chat-box"><div class="chat-list" id="chatList"></div>' +
       '<form class="chat-form" id="chatForm"><input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off" /><button class="btn btn-primary btn-sm" type="submit">Enviar</button></form></div>' +
-      '<p class="hint">Nota: al ser un sitio estático sin servidor, el chat funciona como bitácora local del dispositivo. Para chat en tiempo real entre Andy, Tommy y el docente se requiere un backend.</p>';
+      '<p class="hint">El chat y los avisos ahora se sincronizan en tiempo real con Lovable Cloud. Los mensajes aparecen en todos los dispositivos conectados.</p>';
     return h;
   }
 
@@ -568,13 +649,6 @@ function exportPdf() {
   }
 
   /* ---------------- INICIALIZACIÓN ---------------- */
-  // Asegúrate de incluir la función wire() o el llamado a restoreSession() / render() al cargar
-  if (restoreSession()) {
-    showApp();
-  } else {
-    $("#loginScreen").hidden = false;
-  }
-})();
 
   function backupJson() {
     download(new Blob([JSON.stringify(state, null, 2)], { type: "application/json" }), "respaldo_english_classroom.json");
@@ -614,8 +688,14 @@ function exportPdf() {
         save(); return render();
       }
       if (t.dataset.delAn) {
-        state.announcements = state.announcements.filter(function (a) { return a.id !== t.dataset.delAn; });
-        save(); return render();
+        var delId = t.dataset.delAn;
+        if (window.supabaseClient) {
+          window.supabaseClient.from("messages").delete().eq("id", delId).then(function (r) {
+            if (r.error) console.error(r.error);
+            else loadMessages();
+          });
+        }
+        return;
       }
       switch (t.id) {
         case "btnSaveAll": save(); alert("Cambios guardados correctamente."); return render();
@@ -643,8 +723,20 @@ function exportPdf() {
         case "btnAnnounce":
           var ti = $("#anTitle").value.trim(), bo = $("#anBody").value.trim();
           if (!ti || !bo) return alert("Escribe título y mensaje.");
-          state.announcements.push({ id: "an" + Date.now(), title: ti, body: bo, date: new Date().toISOString() });
-          save(); return render();
+          if (!window.supabaseClient) return alert("No hay conexión con el servidor.");
+          window.supabaseClient.from("messages").insert({
+            course_id: COURSE_ID,
+            local_id: currentUser.id,
+            name: currentUser.name,
+            role: currentUser.role,
+            type: "announcement",
+            title: ti,
+            body: bo
+          }).then(function (r) {
+            if (r.error) { console.error(r.error); alert("No se pudo publicar el aviso."); }
+            else loadMessages();
+          });
+          return;
       }
     });
 
@@ -685,8 +777,18 @@ function exportPdf() {
         e.preventDefault();
         var v = $("#chatInput").value.trim();
         if (!v) return;
-        state.chat.push({ uid: currentUser.id, name: currentUser.name, text: v, ts: Date.now() });
-        save(); $("#chatInput").value = ""; paintChat();
+        if (!window.supabaseClient) { alert("No hay conexión con el servidor."); return; }
+        window.supabaseClient.from("messages").insert({
+          course_id: COURSE_ID,
+          local_id: currentUser.id,
+          name: currentUser.name,
+          role: currentUser.role,
+          type: "chat",
+          body: v
+        }).then(function (r) {
+          if (r.error) { console.error(r.error); alert("No se pudo enviar el mensaje."); }
+          else { $("#chatInput").value = ""; loadMessages(); }
+        });
       }
     });
 

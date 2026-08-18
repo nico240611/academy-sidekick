@@ -76,6 +76,27 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  (function () {
+    var SUPABASE_URL = "https://lrkmwsabjxnbvfcxvdxz.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_kJpjge20B-Vc9skk3uSQkw_Ntv6l4Mj";
+    function createSupabaseFetch(key) {
+      return function (input, init) {
+        var headers = new Headers(init && init.headers);
+        if (key.indexOf("sb_") === 0 && headers.get("Authorization") === "Bearer " + key) {
+          headers.delete("Authorization");
+        }
+        headers.set("apikey", key);
+        return fetch(input, Object.assign({}, init, { headers: headers }));
+      };
+    }
+    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      global: { fetch: createSupabaseFetch(SUPABASE_KEY) },
+      auth: { persistSession: true, storage: localStorage, autoRefreshToken: true }
+    });
+  })();
+</script>
 <script src="script.js"></script>
 </body>
 </html>
