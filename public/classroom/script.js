@@ -597,7 +597,7 @@
     h += '<h3 style="font-size:1rem;margin:22px 0 12px">Chat del curso</h3>' +
       '<div class="card chat-box"><div class="chat-list" id="chatList"></div>' +
       '<form class="chat-form" id="chatForm"><input id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off" /><button class="btn btn-primary btn-sm" type="submit">Enviar</button></form></div>' +
-      '<p class="hint">Nota: al ser un sitio estático sin servidor, el chat funciona como bitácora local del dispositivo. Para chat en tiempo real entre Andy, Tommy y el docente se requiere un backend.</p>';
+      '<p class="hint">El chat y los avisos ahora se sincronizan en tiempo real con Lovable Cloud. Los mensajes aparecen en todos los dispositivos conectados.</p>';
     return h;
   }
 
