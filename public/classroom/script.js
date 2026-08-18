@@ -779,8 +779,18 @@ function exportPdf() {
         e.preventDefault();
         var v = $("#chatInput").value.trim();
         if (!v) return;
-        state.chat.push({ uid: currentUser.id, name: currentUser.name, text: v, ts: Date.now() });
-        save(); $("#chatInput").value = ""; paintChat();
+        if (!window.supabaseClient) { alert("No hay conexión con el servidor."); return; }
+        window.supabaseClient.from("messages").insert({
+          course_id: COURSE_ID,
+          local_id: currentUser.id,
+          name: currentUser.name,
+          role: currentUser.role,
+          type: "chat",
+          body: v
+        }).then(function (r) {
+          if (r.error) { console.error(r.error); alert("No se pudo enviar el mensaje."); }
+          else { $("#chatInput").value = ""; loadMessages(); }
+        });
       }
     });
 
