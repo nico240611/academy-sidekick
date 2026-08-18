@@ -561,11 +561,20 @@
   }
 
 function exportPdf() {
-  if (currentView !== "notas") { render("notas"); }
-  UNITS.forEach(function (u) { openUnits[u.id] = true; });
-  render("notas");
-  setTimeout(function () { window.print(); }, 200);
-}
+    if (currentView !== "notas") { render("notas"); }
+    UNITS.forEach(function (u) { openUnits[u.id] = true; });
+    render("notas");
+    setTimeout(function () { window.print(); }, 200);
+  }
+
+  /* ---------------- INICIALIZACIÓN ---------------- */
+  // Asegúrate de incluir la función wire() o el llamado a restoreSession() / render() al cargar
+  if (restoreSession()) {
+    showApp();
+  } else {
+    $("#loginScreen").hidden = false;
+  }
+})();
 
   function backupJson() {
     download(new Blob([JSON.stringify(state, null, 2)], { type: "application/json" }), "respaldo_english_classroom.json");
