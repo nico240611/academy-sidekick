@@ -252,7 +252,11 @@
       email: creds.email,
       password: creds.password
     }).then(function (res) {
-      if (res.error) console.error("Supabase auth error:", res.error);
+      if (res.error) {
+        console.error("Supabase auth error:", res.error);
+      } else if (res.data && res.data.user) {
+        currentUser.supabaseUid = res.data.user.id;
+      }
     });
   }
 
