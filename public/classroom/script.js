@@ -140,12 +140,17 @@
       s.grades = s.grades || d.grades;
       s.grades.andy = s.grades.andy || {};
       s.grades.tommy = s.grades.tommy || {};
-      s.announcements = s.announcements || d.announcements;
-      s.chat = s.chat || [];
+      s.announcements = [];
+      s.chat = [];
       return s;
     } catch (e) { return defaultState(); }
   }
-  function save() { localStorage.setItem(STORE, JSON.stringify(state)); }
+  function save() {
+    var toStore = Object.assign({}, state);
+    toStore.announcements = [];
+    toStore.chat = [];
+    localStorage.setItem(STORE, JSON.stringify(toStore));
+  }
 
   /* ---------------- HELPERS ---------------- */
   function $(sel) { return document.querySelector(sel); }
