@@ -113,7 +113,7 @@
     return {
       config: {
         threshold: 3.0,
-        classroomLink: "https://classroom.google.com/",
+        classroomLink: "https://classroom.google.com/u/0/w/NzkzNTMzNzM0NDE0/t/all",
         meetLink: "https://meet.google.com/fhu-ffxo-egr",
         courseName: "English Classroom"
       },
