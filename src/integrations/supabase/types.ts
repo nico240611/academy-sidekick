@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      course_members: {
+        Row: {
+          course_id: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           body: string
@@ -58,7 +82,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_course_member: {
+        Args: { _course_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
