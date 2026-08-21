@@ -29,10 +29,10 @@
 
   var SESSIONS = [
     { id: "s01", type: "Primera Sesión", date: "2026-08-07", time: "12:00 p.m.", topic: "Welcome Back!", unit: "u_inicio" },
-    { id: "s02", type: "Reposición 10 de Junio", date: "2026-08-18", time: "7:30 p.m.", topic: "Last Details", unit: "u_inicio" },
-    { id: "s03", type: "Normal", date: "2026-08-19", time: "6:30 p.m.", topic: "Python #1", unit: "u_python" },
-    { id: "s04", type: "Reposición 17 de Junio", date: "2026-08-20", time: "7:30 p.m.", topic: "Python #2", unit: "u_python" },
-    { id: "s05", type: "Reposición 24 de Junio", date: "2026-08-25", time: "7:30 p.m.", topic: "Python #3", unit: "u_python" },
+    { id: "s02", type: "Reposición 10 de Junio", date: "2026-08-20", time: "7:30 p.m.", topic: "Last Details", unit: "u_inicio" },
+    { id: "s03", type: "Reposición 17 de Junio", date: "2026-08-22", time: "10:00 a.m.", topic: "Python #1", unit: "u_python" },
+    { id: "s04", type: "Reposición 24 de Junio", date: "2026-08-25", time: "7:30 p.m.", topic: "Python #2", unit: "u_python" },
+    { id: "s05", type: "Reposición 19 de Agosto", date: "2026-08-25", time: "7:50 p.m.", topic: "Python #3", unit: "u_python" },
     { id: "s06", type: "Normal", date: "2026-08-26", time: "6:30 p.m.", topic: "Exam Python", unit: "u_python" },
     { id: "s07", type: "Clase Adicional", date: "2026-08-28", time: "7:05 p.m.", topic: "Letter #1", unit: "u_letter" },
     { id: "s08", type: "Reposición 2 de Septiembre", date: "2026-09-07", time: "7:30 p.m.", topic: "Letter #2", unit: "u_letter" },
@@ -73,7 +73,7 @@
   ];
 
   var EVENTS = [
-    { date: "2026-08-25", desc: "Control de Lectura Python", limit: "En Clase" },
+    { date: "2026-08-26", desc: "Control de Lectura Python", limit: "En Clase" },
     { date: "2026-08-26", desc: "Exámen Python", limit: "En Clase" },
     { date: "2026-08-30", desc: "Recomendaciones de Notas Python", limit: "11 de Septiembre" },
     { date: "2026-09-07", desc: "Control de Lectura Letter", limit: "En Clase" },
