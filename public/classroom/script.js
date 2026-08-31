@@ -453,9 +453,11 @@
     h += '<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Fecha</th><th>Hora</th><th>Tema / Unidad</th><th></th></tr></thead><tbody>';
     if (!rows.length) h += '<tr><td colspan="5" class="na">Sin clases programadas este mes.</td></tr>';
     rows.forEach(function (s) {
-      var past = daysTo(s.date) < 0;
-      h += '<tr' + (past ? ' style="opacity:.62"' : '') + '>' +
-        '<td><span class="badge ' + badgeClass(s.type) + '">' + esc(s.type) + '</span></td>' +
+      var d = daysTo(s.date);
+      var past = d < 0, hoy = d === 0;
+      h += '<tr' + (hoy ? ' class="row-hoy"' : (past ? ' style="opacity:.62"' : '')) + '>' +
+        '<td><span class="badge ' + badgeClass(s.type) + '">' + esc(s.type) + '</span>' +
+        (hoy ? ' <span class="badge b-hoy">HOY</span>' : '') + '</td>' +
         '<td>' + weekday(s.date) + ' ' + parseDate(s.date).getDate() + ' de ' + MONTH_NAMES[parseDate(s.date).getMonth()] + '</td>' +
         '<td class="mono">' + esc(s.time) + '</td>' +
         '<td><strong>' + esc(s.topic) + '</strong><br><span class="stat-sub">' + esc(unitName(s.unit)) + '</span></td>' +

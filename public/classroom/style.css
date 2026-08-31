@@ -120,6 +120,9 @@ tbody tr:hover{background:#fafcff}
 .b-cambio{background:#e6f3ee;color:#1f7a4d}
 .b-primera{background:#fde8ef;color:#a3204b}
 .b-especial{background:#eef1f6;color:var(--muted)}
+.b-hoy{background:var(--gold,#c9a227);color:#fff;animation:hoyPulse 1.6s ease-in-out infinite}
+tr.row-hoy{background:#fdf7e3;box-shadow:inset 3px 0 0 var(--gold,#c9a227)}
+@keyframes hoyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 .seal{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid}
 .seal-ok{background:var(--ok-soft);color:var(--ok);border-color:#b9e2cd}
 .seal-bad{background:var(--bad-soft);color:var(--bad);border-color:#f0c4c4}
