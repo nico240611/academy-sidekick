@@ -30,31 +30,32 @@
   var SESSIONS = [
     { id: "s01", type: "Primera Sesión", date: "2026-08-07", time: "12:00 p.m.", topic: "Welcome Back!", unit: "u_inicio" },
     { id: "s02", type: "Reposición 10 de Junio", date: "2026-08-20", time: "7:30 p.m.", topic: "Last Details", unit: "u_inicio" },
-    { id: "s03", type: "Reposición 17 de Junio", date: "2026-08-22", time: "10:00 a.m.", topic: "Python #1", unit: "u_python" },
-    { id: "s04", type: "Reposición 24 de Junio", date: "2026-08-25", time: "7:30 p.m.", topic: "Python #2", unit: "u_python" },
-    { id: "s05", type: "Reposición 19 de Agosto", date: "2026-08-25", time: "7:50 p.m.", topic: "Python #3", unit: "u_python" },
-    { id: "s06", type: "Normal", date: "2026-08-26", time: "6:30 p.m.", topic: "Exam Python", unit: "u_python" },
-    { id: "s07", type: "Clase Adicional", date: "2026-08-28", time: "7:05 p.m.", topic: "Letter #1", unit: "u_letter" },
-    { id: "s08", type: "Reposición 2 de Septiembre", date: "2026-09-07", time: "7:30 p.m.", topic: "Letter #2", unit: "u_letter" },
-    { id: "s09", type: "Normal", date: "2026-09-09", time: "6:30 p.m.", topic: "Exam Letter", unit: "u_letter" },
+    { id: "s03", type: "Reposición 17 de Junio", date: "2026-08-28", time: "6:30 p.m.", topic: "Python #1", unit: "u_python" },
+    { id: "s04", type: "Reposición 24 de Junio", date: "2026-08-29", time: "10:30 a.m.", topic: "Python #2", unit: "u_python" },
+    { id: "s05", type: "Reposición 19 de Agosto", date: "2026-09-02", time: "5:30 p.m.", topic: "Python #3", unit: "u_python" },
+    { id: "s06", type: "Reposición 26 de Agosto", date: "2026-09-04", time: "6:30 p.m.", topic: "Exam Python", unit: "u_python" },
+    { id: "s07", type: "Clase Adicional", date: "2026-09-07", time: "8:00 p.m.", topic: "Letter #1", unit: "u_letter" },
+    { id: "s08", type: "Normal", date: "2026-09-09", time: "6:30 p.m.", topic: "Letter #2", unit: "u_letter" },
+    { id: "s09", type: "Clase Adicional", date: "2026-09-12", time: "10:30 a.m.", topic: "Exam Letter", unit: "u_letter" },
     { id: "s10", type: "Normal", date: "2026-09-16", time: "6:30 p.m.", topic: "Diagnostic Test", unit: "u_inicio" },
     { id: "s11", type: "Normal", date: "2026-09-23", time: "6:30 p.m.", topic: "Web Pages & AI #1", unit: "u_web" },
-    { id: "s12", type: "Clase Adicional", date: "2026-09-28", time: "7:30 p.m.", topic: "Web Pages & AI #2", unit: "u_web" },
+    { id: "s12", type: "Clase Adicional", date: "2026-09-28", time: "8:00 p.m.", topic: "Web Pages & AI #2", unit: "u_web" },
     { id: "s13", type: "Normal", date: "2026-09-30", time: "6:30 p.m.", topic: "Web Pages & AI #3", unit: "u_web" },
     { id: "s14", type: "Normal", date: "2026-10-14", time: "6:30 p.m.", topic: "Web Pages & AI #4", unit: "u_web" },
-    { id: "s15", type: "Clase Adicional", date: "2026-10-19", time: "7:30 p.m.", topic: "Web Pages & AI #5", unit: "u_web" },
+    { id: "s15", type: "Clase Adicional", date: "2026-10-17", time: "10:30 a.m.", topic: "Web Pages & AI #5", unit: "u_web" },
     { id: "s16", type: "Normal", date: "2026-10-21", time: "6:30 p.m.", topic: "Exam Pages & AI", unit: "u_web" },
     { id: "s17", type: "Normal", date: "2026-10-28", time: "6:30 p.m.", topic: "Minecraft #1", unit: "u_mine" },
     { id: "s18", type: "Normal", date: "2026-11-04", time: "6:30 p.m.", topic: "Minecraft #2", unit: "u_mine" },
     { id: "s19", type: "Normal", date: "2026-11-11", time: "6:30 p.m.", topic: "Minecraft #3", unit: "u_mine" },
     { id: "s20", type: "Normal", date: "2026-11-18", time: "6:30 p.m.", topic: "Minecraft #4", unit: "u_mine" },
-    { id: "s21", type: "Clase Adicional", date: "2026-11-23", time: "7:30 p.m.", topic: "Exam Minecraft", unit: "u_mine" },
+    { id: "s21", type: "Clase Adicional", date: "2026-11-24", time: "2:30 p.m.", topic: "Exam Minecraft", unit: "u_mine" },
     { id: "s22", type: "Normal", date: "2026-11-25", time: "6:30 p.m.", topic: "Proyect", unit: "u_proy" },
     { id: "s23", type: "Normal", date: "2026-12-02", time: "6:30 p.m.", topic: "Proyect", unit: "u_proy" },
     { id: "s24", type: "Clase Adicional", date: "2026-12-08", time: "11:00 a.m.", topic: "Proyect (Festivo)", unit: "u_proy" },
     { id: "s25", type: "Normal", date: "2026-12-09", time: "6:30 p.m.", topic: "Presentation Proyect", unit: "u_proy" },
     { id: "s26", type: "Cambio de Día", date: "2026-12-17", time: "11:00 a.m.", topic: "Final Review Session", unit: "u_proy" }
   ];
+
 
   var SPECIALS = [
     {
@@ -73,25 +74,26 @@
   ];
 
   var EVENTS = [
-    { date: "2026-08-26", desc: "Control de Lectura Python", limit: "En Clase" },
-    { date: "2026-08-26", desc: "Exámen Python", limit: "En Clase" },
-    { date: "2026-08-30", desc: "Recomendaciones de Notas Python", limit: "11 de Septiembre" },
-    { date: "2026-09-07", desc: "Control de Lectura Letter", limit: "En Clase" },
-    { date: "2026-09-09", desc: "Exámen Letter", limit: "En Clase" },
-    { date: "2026-09-11", desc: "Último Día Mejorar Notas Python", limit: "Último Día" },
-    { date: "2026-09-13", desc: "Recomendaciones de Notas Letter", limit: "19 de Septiembre" },
+    { date: "2026-09-02", desc: "Control de Lectura Python", limit: "En Clase" },
+    { date: "2026-09-04", desc: "Exámen Python", limit: "En Clase" },
+    { date: "2026-09-06", desc: "Recomendaciones de Notas Python", limit: "18 de Septiembre" },
+    { date: "2026-09-09", desc: "Control de Lectura Letter", limit: "En Clase" },
+    { date: "2026-09-12", desc: "Exámen Letter", limit: "En Clase" },
     { date: "2026-09-16", desc: "Diagnostic Test", limit: "En Clase" },
-    { date: "2026-09-19", desc: "Último Día Mejorar Notas Letter", limit: "Último Día" },
-    { date: "2026-10-19", desc: "Control de Lectura Web Pages", limit: "En Clase" },
+    { date: "2026-09-18", desc: "Último Día Mejorar Notas Python", limit: "En Clase" },
+    { date: "2026-09-19", desc: "Recomendaciones de Notas Letter", limit: "26 de Septiembre" },
+    { date: "2026-09-26", desc: "Último Día Mejorar Notas Letter", limit: "Último Día" },
+    { date: "2026-10-17", desc: "Control de Lectura Web Pages", limit: "En Clase" },
     { date: "2026-10-21", desc: "Exámen Web Pages", limit: "En Clase" },
     { date: "2026-10-25", desc: "Recomendaciones de Notas Pages", limit: "6 de Noviembre" },
     { date: "2026-11-06", desc: "Último Día Mejorar Notas Pages", limit: "Último Día" },
     { date: "2026-11-18", desc: "Control de Lectura Minecraft", limit: "En Clase" },
-    { date: "2026-11-23", desc: "Exámen Minecraft", limit: "En Clase" },
+    { date: "2026-11-24", desc: "Exámen Minecraft", limit: "En Clase" },
     { date: "2026-11-29", desc: "Recomendaciones de Notas Minecraft", limit: "17 de Diciembre" },
     { date: "2026-12-09", desc: "Presentation Proyect", limit: "En Clase" },
     { date: "2026-12-17", desc: "Último Día Mejorar Notas Minecraft", limit: "Último Día - En Clase" }
   ];
+
 
   var DEFAULT_ACTIVITIES = ["Vocabulary", "Speaking", "Listening", "Writing"];
   var MONTHS = [
