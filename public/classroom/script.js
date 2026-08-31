@@ -396,7 +396,7 @@
 
     h += '<div class="grid grid-4" style="margin-bottom:18px">' +
       stat("Promedio general", nfmt(g), g === null ? "Aún sin notas registradas" : "Escala 1.0 – 5.0 · mínimo " + state.config.threshold.toFixed(1)) +
-      stat("Próxima clase", ns ? ns.topic : "—", ns ? weekday(ns.date) + " " + fmtDate(ns.date) + " · " + ns.time : "Semestre finalizado") +
+      stat("Próxima clase", ns ? (daysTo(ns.date) === 0 ? "¡Hoy! · " + ns.topic : ns.topic) : "—", ns ? weekday(ns.date) + " " + fmtDate(ns.date) + " · " + ns.time : "Semestre finalizado") +
       stat("Próxima fecha límite", ne ? (daysTo(ne.date) + " días") : "—", ne ? ne.desc + " · " + fmtDate(ne.date) : "Sin pendientes", true) +
       stat("Unidades aprobadas", approved + " / " + UNITS.length, withNotes + " unidades con notas registradas", true) +
       '</div>';
