@@ -38,6 +38,27 @@ export type Database = {
         }
         Relationships: []
       }
+      gradebook: {
+        Row: {
+          course_id: string
+          payload: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          course_id?: string
+          payload?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          course_id?: string
+          payload?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           body: string
