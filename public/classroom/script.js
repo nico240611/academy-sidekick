@@ -1,7 +1,7 @@
 /* =========================================================
    English Classroom · Plataforma Académica 2026-2
-   Notas y configuración en localStorage.
-   Chat y avisos sincronizados en tiempo real con Lovable Cloud.
+   Configuración en localStorage.
+   Chat, avisos y NOTAS sincronizados en tiempo real con Lovable Cloud.
    ========================================================= */
 (function () {
   "use strict";
@@ -153,6 +153,7 @@
     toStore.announcements = [];
     toStore.chat = [];
     localStorage.setItem(STORE, JSON.stringify(toStore));
+    if (currentUser && currentUser.role === "teacher") pushGradebook();
   }
 
   /* ---------------- HELPERS ---------------- */
@@ -258,6 +259,8 @@
         console.error("Supabase auth error:", res.error);
       } else if (res.data && res.data.user) {
         currentUser.supabaseUid = res.data.user.id;
+        loadGradebook();
+        subscribeGradebook();
       }
     });
   }
@@ -265,6 +268,7 @@
   function logout() {
     if (window.supabaseClient) window.supabaseClient.auth.signOut();
     unsubscribeMessages();
+    unsubscribeGradebook();
     localStorage.removeItem(SESSION);
     sessionStorage.removeItem(SESSION);
     currentUser = null;
@@ -337,6 +341,73 @@
       wire();
       paintChat();
     }
+  }
+
+  /* ---------------- NOTAS SINCRONIZADAS EN LA NUBE ---------------- */
+  var gradebookChannel = null;
+  var gradebookPushTimer = null;
+
+  function pushGradebook(immediate) {
+    if (!window.supabaseClient || !currentUser || currentUser.role !== "teacher") return;
+    clearTimeout(gradebookPushTimer);
+    var doPush = function () {
+      window.supabaseClient.from("gradebook").upsert({
+        course_id: COURSE_ID,
+        payload: { activities: state.activities, grades: state.grades },
+        updated_by: currentUser.supabaseUid || null
+      }, { onConflict: "course_id" }).then(function (r) {
+        if (r.error) console.error("Gradebook push error:", r.error);
+      });
+    };
+    if (immediate) doPush();
+    else gradebookPushTimer = setTimeout(doPush, 600);
+  }
+
+  function loadGradebook() {
+    if (!window.supabaseClient || !currentUser) return;
+    window.supabaseClient.from("gradebook")
+      .select("payload")
+      .eq("course_id", COURSE_ID)
+      .maybeSingle()
+      .then(function (res) {
+        if (res.error) { console.error("Gradebook load error:", res.error); return; }
+        if (res.data && res.data.payload && res.data.payload.grades) {
+          var d = res.data.payload;
+          if (d.activities) state.activities = Object.assign(defaultState().activities, d.activities);
+          state.grades = d.grades;
+          state.grades.andy = state.grades.andy || {};
+          state.grades.tommy = state.grades.tommy || {};
+          var toStore = Object.assign({}, state);
+          toStore.announcements = [];
+          toStore.chat = [];
+          localStorage.setItem(STORE, JSON.stringify(toStore));
+          render();
+        } else if (currentUser.role === "teacher") {
+          pushGradebook(true);
+        }
+      });
+  }
+
+  function subscribeGradebook() {
+    if (!window.supabaseClient || gradebookChannel) return;
+    gradebookChannel = window.supabaseClient
+      .channel("gradebook:" + COURSE_ID)
+      .on("postgres_changes", {
+        event: "*",
+        schema: "public",
+        table: "gradebook",
+        filter: "course_id=eq." + COURSE_ID
+      }, function () {
+        if (!currentUser || currentUser.role === "teacher") return;
+        loadGradebook();
+      })
+      .subscribe();
+  }
+
+  function unsubscribeGradebook() {
+    if (!window.supabaseClient || !gradebookChannel) return;
+    window.supabaseClient.removeChannel(gradebookChannel);
+    gradebookChannel = null;
   }
 
   /* ---------------- VISTAS ---------------- */
@@ -535,7 +606,7 @@
 
   function viewDocente() {
     var sid = viewerStudentId();
-    var h = '<div class="section-head"><h2>Panel docente</h2><p>Registra y edita notas, y administra el nombre de las actividades de cada clase. Los cambios se guardan en este navegador.</p></div>';
+    var h = '<div class="section-head"><h2>Panel docente</h2><p>Registra y edita notas, y administra el nombre de las actividades de cada clase. Los cambios se guardan en la nube: los estudiantes las ven al instante en su Boletín.</p></div>';
     h += studentPicker();
     h += '<div class="toolbar">' +
       '<button class="btn btn-primary btn-sm" id="btnSaveAll">Guardar cambios</button>' +
@@ -588,7 +659,7 @@
 
   function viewAvisos() {
     var isT = currentUser.role === "teacher";
-    var h = '<div class="section-head"><h2>Avisos y chat del curso</h2><p>Avisos generales del docente y mensajería del curso (se guarda en este navegador).</p></div>';
+    var h = '<div class="section-head"><h2>Avisos y chat del curso</h2><p>Avisos generales del docente y mensajería del curso (sincronizados en la nube).</p></div>';
     if (isT) {
       h += '<div class="card card-pad" style="margin-bottom:18px"><h3 style="font-size:1rem;margin-bottom:12px">Publicar aviso</h3>' +
         '<div class="field"><label for="anTitle">Título</label><input id="anTitle" placeholder="Ej: Recordatorio examen Python" /></div>' +
