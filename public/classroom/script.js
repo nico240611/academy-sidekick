@@ -733,7 +733,7 @@ function exportPdf() {
   function wire() {
     var c = $("#content");
 
-    c.addEventListener("click", function (e) {
+    c.onclick = function (e) {
       var t = e.target.closest("[data-month],[data-student],[data-toggle],[data-add-act],[data-del-act],[data-del-an],#btnSaveAll,#btnXls,#btnPdf,#btnBackup,#btnSaveCfg,#btnSaveUsers,#btnAnnounce");
       if (!t) return;
       if (t.dataset.month) { activeMonth = +t.dataset.month; return render(); }
@@ -812,9 +812,9 @@ function exportPdf() {
           });
           return;
       }
-    });
+    };
 
-    c.addEventListener("change", function (e) {
+    c.onchange = function (e) {
       var el = e.target;
       if (el.dataset.grade) {
         var p = el.dataset.grade.split("|");
@@ -844,9 +844,9 @@ function exportPdf() {
         };
         fr.readAsText(el.files[0]);
       }
-    });
+    };
 
-    c.addEventListener("submit", function (e) {
+    c.onsubmit = function (e) {
       if (e.target.id === "chatForm") {
         e.preventDefault();
         var v = $("#chatInput").value.trim();
@@ -864,7 +864,7 @@ function exportPdf() {
           else { $("#chatInput").value = ""; loadMessages(); }
         });
       }
-    });
+    };
 
     if (currentView === "avisos") paintChat();
   }

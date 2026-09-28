@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Bind delegated handlers on `#content` by assignment, not repeated listeners, because each view render rewires the same container.
