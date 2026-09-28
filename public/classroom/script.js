@@ -31,18 +31,19 @@
     { id: "s01", type: "Primera Sesión", date: "2026-08-07", time: "12:00 p.m.", topic: "Welcome Back!", unit: "u_inicio" },
     { id: "s02", type: "Reposición 10 de Junio", date: "2026-08-20", time: "7:30 p.m.", topic: "Last Details", unit: "u_inicio" },
     { id: "s03", type: "Reposición 17 de Junio", date: "2026-08-28", time: "6:30 p.m.", topic: "Python #1", unit: "u_python" },
-    { id: "s04", type: "Reposición 24 de Junio", date: "2026-08-29", time: "10:30 a.m.", topic: "Python #2", unit: "u_python" },
-    { id: "s05", type: "Reposición 19 de Agosto", date: "2026-09-02", time: "5:30 p.m.", topic: "Python #3", unit: "u_python" },
-    { id: "s06", type: "Reposición 26 de Agosto", date: "2026-09-04", time: "6:30 p.m.", topic: "Exam Python", unit: "u_python" },
-    { id: "s07", type: "Clase Adicional", date: "2026-09-07", time: "8:00 p.m.", topic: "Letter #1", unit: "u_letter" },
-    { id: "s08", type: "Normal", date: "2026-09-09", time: "6:30 p.m.", topic: "Letter #2", unit: "u_letter" },
-    { id: "s09", type: "Clase Adicional", date: "2026-09-12", time: "10:30 a.m.", topic: "Exam Letter", unit: "u_letter" },
-    { id: "s10", type: "Normal", date: "2026-09-16", time: "6:30 p.m.", topic: "Diagnostic Test", unit: "u_inicio" },
-    { id: "s11", type: "Normal", date: "2026-09-23", time: "6:30 p.m.", topic: "Web Pages & AI #1", unit: "u_web" },
-    { id: "s12", type: "Clase Adicional", date: "2026-09-28", time: "8:00 p.m.", topic: "Web Pages & AI #2", unit: "u_web" },
-    { id: "s13", type: "Normal", date: "2026-09-30", time: "6:30 p.m.", topic: "Web Pages & AI #3", unit: "u_web" },
+    { id: "s04", type: "Reposición 24 de Junio", date: "2026-09-04", time: "7:00 p.m.", topic: "Python #2", unit: "u_python" },
+    { id: "s05", type: "Reposición 19 de Agosto", date: "2026-09-12", time: "10:45 a.m.", topic: "Python #3", unit: "u_python" },
+    { id: "s06", type: "Reposición 26 de Agosto", date: "2026-09-22", time: "8:00 p.m.", topic: "Exam Python", unit: "u_python" },
+    { id: "s07", type: "Normal", date: "2026-09-23", time: "6:30 p.m.", topic: "Letter #1", unit: "u_letter" },
+    { id: "s08", type: "Reposición 2 de Septiembre", date: "2026-09-24", time: "8:00 p.m.", topic: "Letter #2", unit: "u_letter" },
+    { id: "s09", type: "Reposición 9 de Septiembre", date: "2026-09-26", time: "10:30 a.m.", topic: "Exam Letter", unit: "u_letter" },
+    { id: "s10", type: "Reposición 16 de Septiembre", date: "2026-09-29", time: "8:00 p.m.", topic: "Diagnostic Test", unit: "u_inicio" },
+    { id: "s11", type: "Normal", date: "2026-09-30", time: "6:30 p.m.", topic: "Web Pages & AI #1", unit: "u_web" },
+    { id: "s12", type: "Clase Adicional (Con Andy)", date: "2026-10-01", time: "6:00 p.m.", topic: "Web Pages & AI #2", unit: "u_web" },
+    { id: "s13", type: "Clase Adicional (Con Andy)", date: "2026-10-02", time: "5:20 p.m.", topic: "Web Pages & AI #3", unit: "u_web" },
+    { id: "s13t", type: "Clase Adicional (Con Tommy)", date: "2026-10-03", time: "10:45 a.m.", topic: "Web Pages & AI #2-3", unit: "u_web" },
     { id: "s14", type: "Normal", date: "2026-10-14", time: "6:30 p.m.", topic: "Web Pages & AI #4", unit: "u_web" },
-    { id: "s15", type: "Clase Adicional", date: "2026-10-17", time: "10:30 a.m.", topic: "Web Pages & AI #5", unit: "u_web" },
+    { id: "s15", type: "Clase Adicional", date: "2026-10-17", time: "10:45 a.m.", topic: "Web Pages & AI #5", unit: "u_web" },
     { id: "s16", type: "Normal", date: "2026-10-21", time: "6:30 p.m.", topic: "Exam Pages & AI", unit: "u_web" },
     { id: "s17", type: "Normal", date: "2026-10-28", time: "6:30 p.m.", topic: "Minecraft #1", unit: "u_mine" },
     { id: "s18", type: "Normal", date: "2026-11-04", time: "6:30 p.m.", topic: "Minecraft #2", unit: "u_mine" },
@@ -66,23 +67,22 @@
       linkText: "Para más información registra tu nombre y correo aquí"
     },
     {
-      month: 10, date: "2026-10-01", type: "Especial",
+      month: 10, date: "2026-10-04", type: "Especial",
       title: "Semana de Receso",
-      detail: "Del 1 al 13 de Octubre · Se retoman clases el 14 de Octubre",
+      detail: "Del 4 al 13 de Octubre · Se retoman clases el 14 de Octubre",
       link: "", linkText: ""
     }
   ];
 
   var EVENTS = [
-    { date: "2026-09-02", desc: "Control de Lectura Python", limit: "En Clase" },
-    { date: "2026-09-04", desc: "Exámen Python", limit: "En Clase" },
-    { date: "2026-09-06", desc: "Recomendaciones de Notas Python", limit: "18 de Septiembre" },
-    { date: "2026-09-09", desc: "Control de Lectura Letter", limit: "En Clase" },
-    { date: "2026-09-12", desc: "Exámen Letter", limit: "En Clase" },
-    { date: "2026-09-16", desc: "Diagnostic Test", limit: "En Clase" },
-    { date: "2026-09-18", desc: "Último Día Mejorar Notas Python", limit: "En Clase" },
-    { date: "2026-09-19", desc: "Recomendaciones de Notas Letter", limit: "26 de Septiembre" },
-    { date: "2026-09-26", desc: "Último Día Mejorar Notas Letter", limit: "Último Día" },
+    { date: "2026-09-12", desc: "Control de Lectura Python", limit: "En Clase" },
+    { date: "2026-09-22", desc: "Exámen Python", limit: "En Clase" },
+    { date: "2026-09-26", desc: "Exámen Letter", limit: "En Clase" },
+    { date: "2026-09-27", desc: "Recomendaciones de Notas Python", limit: "17 de Octubre" },
+    { date: "2026-09-27", desc: "Recomendaciones de Notas Letter", limit: "17 de Octubre" },
+    { date: "2026-09-29", desc: "Diagnostic Test", limit: "En Clase" },
+    { date: "2026-10-17", desc: "Último Día Mejorar Notas Python", limit: "Último Día" },
+    { date: "2026-10-17", desc: "Último Día Mejorar Notas Letter", limit: "Último Día" },
     { date: "2026-10-17", desc: "Control de Lectura Web Pages", limit: "En Clase" },
     { date: "2026-10-21", desc: "Exámen Web Pages", limit: "En Clase" },
     { date: "2026-10-25", desc: "Recomendaciones de Notas Pages", limit: "6 de Noviembre" },
@@ -733,7 +733,7 @@ function exportPdf() {
   function wire() {
     var c = $("#content");
 
-    c.addEventListener("click", function (e) {
+    c.onclick = function (e) {
       var t = e.target.closest("[data-month],[data-student],[data-toggle],[data-add-act],[data-del-act],[data-del-an],#btnSaveAll,#btnXls,#btnPdf,#btnBackup,#btnSaveCfg,#btnSaveUsers,#btnAnnounce");
       if (!t) return;
       if (t.dataset.month) { activeMonth = +t.dataset.month; return render(); }
@@ -756,7 +756,6 @@ function exportPdf() {
       }
       if (t.dataset.delAct) {
         var p = t.dataset.delAct.split("|");
-        if (!confirm("¿Eliminar esta actividad y su nota?")) return;
         state.activities[p[0]] = acts(p[0]).filter(function (a) { return a.id !== p[1]; });
         setGrade(viewerStudentId(), p[0], p[1], null);
         students().forEach(function (s) { setGrade(s.id, p[0], p[1], null); });
@@ -813,9 +812,9 @@ function exportPdf() {
           });
           return;
       }
-    });
+    };
 
-    c.addEventListener("change", function (e) {
+    c.onchange = function (e) {
       var el = e.target;
       if (el.dataset.grade) {
         var p = el.dataset.grade.split("|");
@@ -845,9 +844,9 @@ function exportPdf() {
         };
         fr.readAsText(el.files[0]);
       }
-    });
+    };
 
-    c.addEventListener("submit", function (e) {
+    c.onsubmit = function (e) {
       if (e.target.id === "chatForm") {
         e.preventDefault();
         var v = $("#chatInput").value.trim();
@@ -865,7 +864,7 @@ function exportPdf() {
           else { $("#chatInput").value = ""; loadMessages(); }
         });
       }
-    });
+    };
 
     if (currentView === "avisos") paintChat();
   }
